@@ -1,0 +1,1363 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jul 18, 2023 at 11:13 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `temantani`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `galeri`
+--
+
+CREATE TABLE `galeri` (
+  `id_galeri` int(11) NOT NULL,
+  `id_kategori_galeri` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `judul_galeri` varchar(200) DEFAULT NULL,
+  `jenis_galeri` varchar(20) NOT NULL,
+  `isi` text DEFAULT NULL,
+  `gambar` varchar(255) NOT NULL,
+  `hits` int(11) DEFAULT NULL,
+  `status_text` enum('Ya','Tidak','','') NOT NULL,
+  `tanggal_post` datetime DEFAULT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `galeri`
+--
+
+INSERT INTO `galeri` (`id_galeri`, `id_kategori_galeri`, `id_user`, `judul_galeri`, `jenis_galeri`, `isi`, `gambar`, `hits`, `status_text`, `tanggal_post`, `tanggal`) VALUES
+(1, 0, 1, 'Lahan  Anda kering ?', 'Homepage', '<p>Disini ada pompa air siap memompa air ke lahan pertanian anda agar mencukupi air</p>', 'GAleri-Baner.jpg', NULL, 'Ya', '2023-06-16 13:39:43', '2023-07-18 08:56:50'),
+(2, 5, 1, 'Punya alat pertanian nganggur ? ', 'Homepage', '<p>Disini anda bisa memposting dan menyewakan alat anda</p>', 'Galeri-Baner-1.jpg', NULL, 'Ya', NULL, '2023-07-18 08:53:59');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kategori`
+--
+
+CREATE TABLE `kategori` (
+  `id_kategori` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `slug_kategori` varchar(255) NOT NULL,
+  `nama_kategori` varchar(255) NOT NULL,
+  `urutan` int(11) DEFAULT NULL,
+  `hits` int(11) NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `kategori`
+--
+
+INSERT INTO `kategori` (`id_kategori`, `id_user`, `slug_kategori`, `nama_kategori`, `urutan`, `hits`, `tanggal`) VALUES
+(1, 1, 'combine', 'combine', 2, 49, '2023-07-17 14:09:14'),
+(2, 1, 'traktor', 'Traktor', 1, 29, '2023-06-20 15:33:13'),
+(7, 1, 'all', 'All', 3, 0, '2023-06-19 04:30:57'),
+(8, 1, 'pompa-air', 'pompa air', 4, 0, '2023-07-18 08:58:03'),
+(9, 1, 'mesin-tanam', 'Mesin Tanam', 5, 0, '2023-07-18 08:58:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `konfigurasi`
+--
+
+CREATE TABLE `konfigurasi` (
+  `id_konfigurasi` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `namaweb` varchar(200) NOT NULL,
+  `singkatan` varchar(255) DEFAULT NULL,
+  `tagline` varchar(200) DEFAULT NULL,
+  `tentang` text DEFAULT NULL,
+  `deskripsi` text DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `alamat` text DEFAULT NULL,
+  `telepon` varchar(50) DEFAULT NULL,
+  `hp` varchar(50) DEFAULT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `youtube` varchar(255) DEFAULT NULL,
+  `nama_facebook` varchar(255) DEFAULT NULL,
+  `nama_twitter` varchar(255) DEFAULT NULL,
+  `nama_instagram` varchar(255) DEFAULT NULL,
+  `nama_youtube` varchar(255) DEFAULT NULL,
+  `google_map` text DEFAULT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `konfigurasi`
+--
+
+INSERT INTO `konfigurasi` (`id_konfigurasi`, `id_user`, `namaweb`, `singkatan`, `tagline`, `tentang`, `deskripsi`, `website`, `email`, `alamat`, `telepon`, `hp`, `logo`, `icon`, `facebook`, `twitter`, `instagram`, `youtube`, `nama_facebook`, `nama_twitter`, `nama_instagram`, `nama_youtube`, `google_map`, `tanggal`) VALUES
+(1, 1, 'Teman Tani', 'TT', 'Sahabat Terpercaya Anda untuk Penyewaan Alat Pertanian', '<p>TaniTeman adalah sebuah platform inovatif yang menghubungkan para petani dengan penyedia penyewaan alat tani. Dengan misi untuk mempermudah dan meningkatkan efisiensi dalam kegiatan pertanian, TaniTeman menawarkan solusi praktis dan terpercaya bagi petani yang membutuhkan akses sementara terhadap peralatan pertanian.</p>', 'TaniTeman adalah platform penyewaan alat tani yang menghubungkan petani dengan penyedia peralatan pertanian. Dengan beragam pilihan alat tani berkualitas tinggi, TaniTeman memudahkan petani dalam mendapatkan peralatan yang dibutuhkan untuk meningkatkan produktivitas pertanian. Layanan pengantaran, bantuan teknis, dan dukungan pelanggan yang responsif juga disediakan untuk pengalaman yang lancar dan menyenangkan. TaniTeman adalah mitra terpercaya untuk pertanian yang efisien dan sukses.', 'MALANG, KAYUTANGAN', 'supportTemantani@gmail.com', '<p>MALANG, KAYUTANGAN<br>Telepon: 0857123456<br>Whatsapp: +628123344545<br>Email: contact@rentalprl.co.id</p>', '+6285678910', '+6285678910', 'Untitled.jpeg', 'stiki.png', 'https://www.facebook.com/', 'http://twitter.com/', 'https://instagram.com/', 'https://www.youtube.com/', 'TemanTani', 'TemanTani', 'TemanTani', 'TemanTani', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.903992780754!2d112.63223457449807!3d-7.693452092323869!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6282eda32dfc3%3A0x856001f826872f66!2sTretes%20Raya%20Hotel%20%26%20Resort!5e0!3m2!1sid!2sid!4v1689668202914!5m2!1sid!2sid\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', '2023-07-18 08:17:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id_order` int(11) NOT NULL,
+  `id_sewa2` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `banyak_sewa` varchar(20) NOT NULL,
+  `jenis_sewa` varchar(20) NOT NULL,
+  `jenisharga_sewa` varchar(20) NOT NULL,
+  `total_harga` int(11) NOT NULL,
+  `tgl_sewa` date NOT NULL,
+  `jenis_bayar` varchar(20) NOT NULL,
+  `total_bayar` int(11) NOT NULL,
+  `sisa_bayar` int(11) NOT NULL,
+  `bukti_foto` varchar(255) DEFAULT NULL,
+  `status_order` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id_order`, `id_sewa2`, `id_user`, `banyak_sewa`, `jenis_sewa`, `jenisharga_sewa`, `total_harga`, `tgl_sewa`, `jenis_bayar`, `total_bayar`, `sisa_bayar`, `bukti_foto`, `status_order`) VALUES
+(1, 1, 2, '10', 'sewapekerja', 'luastanah', 450000, '2023-07-04', 'lunas', 450000, 0, 'kucing.jpg', 'Konfirmasi'),
+(5, 2, 2, '1', 'sewa', 'jam', 15000, '2023-07-06', 'lunas', 15000, 0, 'kucing.jpg', 'Konfirmasi');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sewa`
+--
+
+CREATE TABLE `sewa` (
+  `id_sewa` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `slug_sewa` varchar(255) NOT NULL,
+  `judul_sewa` varchar(255) NOT NULL,
+  `ringkasan` varchar(500) NOT NULL,
+  `isi` text DEFAULT NULL,
+  `status_sewa` varchar(20) NOT NULL,
+  `gambar` varchar(255) DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
+  `tanggal_post` datetime NOT NULL,
+  `tanggal_publish` datetime NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `sewa`
+--
+
+INSERT INTO `sewa` (`id_sewa`, `id_user`, `slug_sewa`, `judul_sewa`, `ringkasan`, `isi`, `status_sewa`, `gambar`, `icon`, `tanggal_post`, `tanggal_publish`, `tanggal`) VALUES
+(25, 1, 'tracktor-pengangkut', 'tracktor pengangkut', 'Ringkasantracktor pengangkut', '<p>TractorPengangkut adalah layanan penyewaan traktor khusus untuk pengangkutan berat. Kami menyediakan traktor tangguh dengan beragam kapasitas untuk membantu memindahkan material dan muatan dengan efisien. Dengan pilihan peralatan yang berkualitas dan pengemudi terlatih, TractorPengangkut hadir sebagai solusi handal untuk kebutuhan pengangkutan berat Anda. Hemat waktu dan tenaga dengan TractorPengangkut - andalkan kami untuk perpindahan material yang aman dan cepat.</p>', 'Publish', 'traktor-pengangkut.jpg', '', '2023-06-16 12:43:55', '2023-06-16 12:41:00', '2023-07-18 08:43:10'),
+(26, 1, 'pompa-air-diesel', 'Pompa Air Diesel', 'Ringkasan Sewa Traktor Roda 4', '<p>Pompa Air Diesel adalah perangkat khusus yang menggunakan mesin diesel sebagai tenaga penggerak untuk memompa air. Dengan efisiensi dan daya tahan tinggi, pompa air diesel cocok untuk berbagai aplikasi, termasuk irigasi pertanian, pemadam kebakaran, konstruksi, dan pengelolaan banjir. Pompa air diesel memiliki kemampuan untuk mengatasi tantangan dalam menghadapi kondisi lingkungan yang keras dan ketersediaan bahan bakar diesel yang luas. Keandalan dan kinerja yang handal membuat pompa air diesel menjadi pilihan yang andal untuk memenuhi kebutuhan distribusi air dengan efisien dan efektif.</p>', 'Publish', 'pompa-air-diesel.jpg', '', '2023-06-16 12:47:13', '2023-06-16 12:46:00', '2023-07-18 08:38:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sewa2`
+--
+
+CREATE TABLE `sewa2` (
+  `id_sewa2` int(11) NOT NULL,
+  `id_user2` int(11) NOT NULL,
+  `kategori_id` int(11) NOT NULL,
+  `nama_alat` varchar(200) NOT NULL,
+  `ringkasan` text DEFAULT NULL,
+  `jenis_harga` varchar(25) NOT NULL,
+  `harga_sewa` int(11) NOT NULL,
+  `hargasewa_pekerja` int(11) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL,
+  `status_alat` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sewa2`
+--
+
+INSERT INTO `sewa2` (`id_sewa2`, `id_user2`, `kategori_id`, `nama_alat`, `ringkasan`, `jenis_harga`, `harga_sewa`, `hargasewa_pekerja`, `foto`, `status_alat`) VALUES
+(1, 1, 1, 'combine padi', 'Combine padi adalah mesin pertanian yang menggabungkan beberapa proses sekaligus dalam panen padi. Mesin ini mampu memotong batang padi, mengupas gabah dari tangkainya, membersihkan gabah dari jerami, dan menyimpan hasil panen dalam satu proses yang efisien. Dengan teknologi ini, petani dapat meningkatkan produktivitas, menghemat waktu, dan mengurangi biaya tenaga kerja. Combine padi menjadi solusi terbaik untuk hasil panen yang lebih besar dan lebih efisien dalam usaha pertanian padi.', 'luastanah', 25000, 45000, 'combine-padi.jpg', 'tersedia'),
+(2, 1, 2, 'traktor roda 2', 'Traktor 2 roda adalah alat pertanian yang kompak dan efisien, dirancang untuk membantu petani dalam pekerjaan lapangan. Dengan desain yang ringkas dan roda ganda yang kuat, traktor ini mudah manuver di lahan yang sempit dan berkontur sulit. Meskipun ukurannya kecil, traktor 2 roda mampu mengatasi berbagai tugas pertanian seperti pengolahan tanah, penanaman, dan transportasi. Dengan daya tahan dan kemudahan penggunaan, traktor 2 roda menjadi pilihan ideal bagi petani yang mencari solusi efektif dan ekonomis untuk kegiatan pertanian', 'luastanah', 15000, 20000, 'traktor-roda-2.jpg', 'tersedia'),
+(3, 1, 8, 'Pompa air Diesel', 'Pompa Air Diesel adalah perangkat khusus yang menggunakan mesin diesel sebagai tenaga penggerak untuk memompa air. Dengan efisiensi dan daya tahan tinggi, pompa air diesel cocok untuk berbagai aplikasi, termasuk irigasi pertanian, pemadam kebakaran, konstruksi, dan pengelolaan banjir. Pompa air diesel memiliki kemampuan untuk mengatasi tantangan dalam menghadapi kondisi lingkungan yang keras dan ketersediaan bahan bakar diesel yang luas. Keandalan dan kinerja yang handal membuat pompa air diesel menjadi pilihan yang andal untuk memenuhi kebutuhan distribusi air dengan efisien dan efektif.', 'jam', 15000, 20000, 'pompa-air-diesel.jpg', 'tersedia');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id_user` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `username` varchar(32) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `akses_level` varchar(20) NOT NULL,
+  `gambar` varchar(255) DEFAULT NULL,
+  `nohp` varchar(15) DEFAULT NULL,
+  `alamat_user` text DEFAULT NULL,
+  `tanggal_post` datetime NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id_user`, `nama`, `email`, `username`, `password`, `akses_level`, `gambar`, `nohp`, `alamat_user`, `tanggal_post`, `tanggal`) VALUES
+(1, 'Admin Teman Tani', 'supporttemantani@gmail.com', 'superadmin', 'f865b53623b121fd34ee5426c792e5c33af8c227', 'Superadmin', '1689666892_e3e5bc327320e814894c.jpg', NULL, NULL, '2019-10-12 15:50:21', '2023-07-18 07:54:52'),
+(14, 'anam', 'namkulhelos@gmail.com', 'irul', '1a359f58aa8be24a6773ecfd9ae266b999cba6fc', 'User', NULL, '081217748024', 'jl lowokdoro', '2023-07-17 12:27:24', '2023-07-17 05:27:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_logs`
+--
+
+CREATE TABLE `user_logs` (
+  `id_user_log` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `ip_address` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `tanggal_updates` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `user_logs`
+--
+
+INSERT INTO `user_logs` (`id_user_log`, `id_user`, `ip_address`, `username`, `url`, `tanggal_updates`) VALUES
+(1, 1, '::1', 'javawebmedia', 'http://localhost/webci4/admin/dasbor', '2021-05-03 01:19:34'),
+(2, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/dasbor', '2023-06-09 04:01:40'),
+(3, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/dasbor', '2023-06-13 06:31:36'),
+(4, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/dasbor', '2023-06-13 06:31:40'),
+(5, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/user', '2023-06-13 06:31:44'),
+(6, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/user/edit/1', '2023-06-13 06:31:49'),
+(7, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/user/edit/1', '2023-06-13 06:32:18'),
+(8, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/user', '2023-06-13 06:32:18'),
+(9, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/akun', '2023-06-13 06:32:28'),
+(10, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/akun', '2023-06-13 06:32:33'),
+(11, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/akun', '2023-06-13 06:32:34'),
+(12, 1, '127.0.0.1', 'javawebmedia', 'http://localhost/webci4/admin/akun', '2023-06-13 06:32:46'),
+(13, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/dasbor', '2023-06-13 06:36:28'),
+(14, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/konfigurasi/icon', '2023-06-13 06:36:39'),
+(15, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/konfigurasi/logo', '2023-06-13 06:36:43'),
+(16, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/konfigurasi', '2023-06-13 06:36:47'),
+(17, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/akun', '2023-06-13 06:36:55'),
+(18, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/akun', '2023-06-13 06:37:52'),
+(19, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/akun', '2023-06-13 06:37:53'),
+(20, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/dasbor', '2023-06-13 06:38:05'),
+(21, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/staff', '2023-06-13 06:38:35'),
+(22, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/dasbor', '2023-06-13 06:38:38'),
+(23, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/user', '2023-06-13 06:38:40'),
+(24, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/user/edit/2', '2023-06-13 06:38:43'),
+(25, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/user/edit/2', '2023-06-13 06:39:22'),
+(26, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/user', '2023-06-13 06:39:22'),
+(27, 2, '127.0.0.1', 'ryan', 'http://localhost/webci4/admin/dasbor', '2023-06-13 06:40:01'),
+(28, 2, '127.0.0.1', 'ryan', 'http://localhost/webci4/admin/user', '2023-06-13 06:40:08'),
+(29, 2, '127.0.0.1', 'ryan', 'http://localhost/webci4/admin/client', '2023-06-13 06:40:23'),
+(30, 2, '127.0.0.1', 'ryan', 'http://localhost/webci4/admin/user', '2023-06-13 06:40:26'),
+(31, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/dasbor', '2023-06-13 06:40:37'),
+(32, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/user', '2023-06-13 06:40:40'),
+(33, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/staff', '2023-06-13 06:40:42'),
+(34, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/user', '2023-06-13 06:40:43'),
+(35, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/user', '2023-06-13 06:40:49'),
+(36, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/berita', '2023-06-13 06:40:51'),
+(37, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/client', '2023-06-13 06:40:55'),
+(38, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/download', '2023-06-13 06:40:59'),
+(39, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/dasbor', '2023-06-13 06:41:06'),
+(40, 1, '127.0.0.1', 'admin', 'http://localhost/webci4/admin/dasbor', '2023-06-13 06:41:12'),
+(41, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 02:34:09'),
+(42, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/logo', '2023-06-15 02:34:18'),
+(43, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/logo', '2023-06-15 02:35:35'),
+(44, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/icon', '2023-06-15 02:35:38'),
+(45, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/icon', '2023-06-15 02:35:45'),
+(46, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/icon', '2023-06-15 02:35:45'),
+(47, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/logo', '2023-06-15 02:35:52'),
+(48, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/logo', '2023-06-15 02:36:26'),
+(49, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/logo', '2023-06-15 02:36:27'),
+(50, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-15 02:37:08'),
+(51, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-15 02:37:12'),
+(52, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-15 02:37:23'),
+(53, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-15 02:37:23'),
+(54, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 02:37:26'),
+(55, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-15 02:37:32'),
+(56, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/staff', '2023-06-15 02:37:37'),
+(57, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-15 02:37:41'),
+(58, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-15 02:37:50'),
+(59, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-15 02:42:36'),
+(60, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 02:43:20'),
+(61, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 02:44:30'),
+(62, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 02:45:05'),
+(63, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-15 02:45:28'),
+(64, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 02:45:30'),
+(65, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 02:45:43'),
+(66, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-15 02:45:53'),
+(67, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-15 02:52:08'),
+(68, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-15 02:52:08'),
+(69, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-15 02:52:50'),
+(70, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-15 02:52:50'),
+(71, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/berita', '2023-06-15 03:28:47'),
+(72, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-15 03:29:01'),
+(73, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-15 03:29:16'),
+(74, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/download', '2023-06-15 03:30:18'),
+(75, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-15 03:30:19'),
+(76, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-15 03:33:07'),
+(77, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/seo', '2023-06-15 03:33:14'),
+(78, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-15 03:33:25'),
+(79, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:20:52'),
+(80, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:29:26'),
+(81, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:32:02'),
+(82, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/client', '2023-06-15 16:32:37'),
+(83, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-15 16:32:49'),
+(84, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/client', '2023-06-15 16:32:54'),
+(85, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:32:57'),
+(86, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:34:39'),
+(87, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:35:55'),
+(88, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:36:36'),
+(89, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/icon', '2023-06-15 16:37:39'),
+(90, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/icon', '2023-06-15 16:37:47'),
+(91, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/icon', '2023-06-15 16:37:48'),
+(92, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:37:55'),
+(93, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:47:37'),
+(94, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-15 16:47:45'),
+(95, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:47:52'),
+(96, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/client', '2023-06-15 16:48:35'),
+(97, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:48:45'),
+(98, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/staff', '2023-06-15 16:48:53'),
+(99, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:48:55'),
+(100, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori_staff', '2023-06-15 16:48:59'),
+(101, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:49:03'),
+(102, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/panduan', '2023-06-15 16:49:47'),
+(103, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:49:49'),
+(104, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:50:04'),
+(105, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:50:08'),
+(106, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:50:21'),
+(107, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-15 16:50:49'),
+(108, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-15 16:51:49'),
+(109, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-15 16:51:51'),
+(110, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-15 16:54:20'),
+(111, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-15 16:54:34'),
+(112, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-15 16:54:42'),
+(113, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-15 16:54:46'),
+(114, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-15 16:54:50'),
+(115, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-16 03:04:51'),
+(116, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-16 03:06:37'),
+(117, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/icon', '2023-06-16 03:07:01'),
+(118, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/icon', '2023-06-16 03:07:10'),
+(119, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/icon', '2023-06-16 03:07:10'),
+(120, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-16 03:07:14'),
+(121, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 03:26:04'),
+(122, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 03:26:09'),
+(123, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 03:26:26'),
+(124, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/24', '2023-06-16 03:26:46'),
+(125, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 03:27:15'),
+(126, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/22', '2023-06-16 03:27:19'),
+(127, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/22', '2023-06-16 03:28:00'),
+(128, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-16 03:28:01'),
+(129, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/22', '2023-06-16 03:28:19'),
+(130, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/22', '2023-06-16 03:28:53'),
+(131, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-16 03:28:53'),
+(132, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-16 03:29:00'),
+(133, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 03:29:25'),
+(134, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 03:31:23'),
+(135, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 03:32:23'),
+(136, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 03:32:31'),
+(137, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 03:33:34'),
+(138, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 03:34:23'),
+(139, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 03:34:26'),
+(140, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 03:36:26'),
+(141, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-16 03:37:52'),
+(142, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 03:39:22'),
+(143, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 03:39:23'),
+(144, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 03:39:45'),
+(145, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-16 03:39:59'),
+(146, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-16 03:43:43'),
+(147, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori/edit/6', '2023-06-16 03:56:19'),
+(148, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori/edit/6', '2023-06-16 03:56:41'),
+(149, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-16 03:56:42'),
+(150, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori/edit/5', '2023-06-16 03:56:46'),
+(151, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-16 03:57:12'),
+(152, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-16 04:00:26'),
+(153, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-16 04:03:35'),
+(154, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-16 04:03:48'),
+(155, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 04:03:50'),
+(156, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 04:06:19'),
+(157, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 04:06:21'),
+(158, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 04:08:18'),
+(159, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-16 05:35:02'),
+(160, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:35:06'),
+(161, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/24', '2023-06-16 05:35:21'),
+(162, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:35:22'),
+(163, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 05:41:55'),
+(164, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 05:43:55'),
+(165, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-16 05:43:55'),
+(166, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/25', '2023-06-16 05:44:19'),
+(167, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/25', '2023-06-16 05:44:54'),
+(168, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-16 05:44:54'),
+(169, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/25', '2023-06-16 05:45:10'),
+(170, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/25', '2023-06-16 05:45:18'),
+(171, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-16 05:45:18'),
+(172, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/delete/22', '2023-06-16 05:45:44'),
+(173, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:45:44'),
+(174, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/delete/21', '2023-06-16 05:45:54'),
+(175, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:45:54'),
+(176, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 05:45:59'),
+(177, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 05:47:12'),
+(178, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-16 05:47:13'),
+(179, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/delete/7', '2023-06-16 05:48:22'),
+(180, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:48:22'),
+(181, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/delete/1', '2023-06-16 05:48:29'),
+(182, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:48:30'),
+(183, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 05:48:36'),
+(184, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 05:49:40'),
+(185, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-16 05:49:40'),
+(186, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-16 05:49:47'),
+(187, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-16 05:49:59'),
+(188, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-16 05:49:59'),
+(189, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/logo', '2023-06-16 05:50:04'),
+(190, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:50:07'),
+(191, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-16 05:50:09'),
+(192, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-16 05:50:24'),
+(193, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-16 05:50:24'),
+(194, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:51:03'),
+(195, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-16 05:51:08'),
+(196, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:51:10'),
+(197, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/delete/24', '2023-06-16 05:52:48'),
+(198, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:52:48'),
+(199, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/delete/6', '2023-06-16 05:52:57'),
+(200, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:52:57'),
+(201, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/delete/2', '2023-06-16 05:53:01'),
+(202, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:53:01'),
+(203, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 05:53:04'),
+(204, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-16 05:54:46'),
+(205, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Informasi', '2023-06-16 05:54:46'),
+(206, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 05:57:16'),
+(207, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 05:57:31'),
+(208, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/13', '2023-06-16 05:57:41'),
+(209, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 05:57:57'),
+(210, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-16 05:58:54'),
+(211, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 05:58:56'),
+(212, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/seo', '2023-06-16 05:59:02'),
+(213, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 05:59:03'),
+(214, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 05:59:21'),
+(215, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-16 05:59:24'),
+(216, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 05:59:25'),
+(217, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 06:03:43'),
+(218, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:03:51'),
+(219, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 06:04:01'),
+(220, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:04:10'),
+(221, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 06:23:16'),
+(222, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori_galeri', '2023-06-16 06:23:43'),
+(223, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 06:23:51'),
+(224, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 06:28:02'),
+(225, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 06:28:42'),
+(226, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:31:21'),
+(227, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/delete/13', '2023-06-16 06:32:35'),
+(228, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:32:35'),
+(229, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:32:39'),
+(230, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:32:46'),
+(231, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:34:05'),
+(232, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:34:56'),
+(233, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:35:49'),
+(234, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/delete/12', '2023-06-16 06:36:42'),
+(235, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:36:43'),
+(236, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/delete/10', '2023-06-16 06:36:46'),
+(237, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:36:46'),
+(238, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/delete/9', '2023-06-16 06:36:49'),
+(239, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:36:50'),
+(240, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/delete/8', '2023-06-16 06:36:53'),
+(241, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:36:53'),
+(242, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/delete/7', '2023-06-16 06:36:56'),
+(243, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:36:57'),
+(244, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/4', '2023-06-16 06:36:59'),
+(245, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/4', '2023-06-16 06:37:18'),
+(246, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:37:18'),
+(247, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/4', '2023-06-16 06:37:41'),
+(248, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/4', '2023-06-16 06:37:56'),
+(249, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:37:56'),
+(250, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/delete/5', '2023-06-16 06:38:15'),
+(251, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:38:16'),
+(252, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/4', '2023-06-16 06:38:27'),
+(253, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/4', '2023-06-16 06:38:29'),
+(254, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:38:29'),
+(255, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/4', '2023-06-16 06:38:42'),
+(256, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/4', '2023-06-16 06:38:46'),
+(257, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:38:46'),
+(258, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 06:39:15'),
+(259, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 06:39:43'),
+(260, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:39:43'),
+(261, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/14', '2023-06-16 06:40:01'),
+(262, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/14', '2023-06-16 06:40:04'),
+(263, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:40:04'),
+(264, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 06:40:20'),
+(265, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/tambah', '2023-06-16 06:40:33'),
+(266, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:40:33'),
+(267, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/4', '2023-06-16 06:41:08'),
+(268, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri/edit/4', '2023-06-16 06:41:10'),
+(269, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 06:41:10'),
+(270, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-16 06:43:46'),
+(271, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/icon', '2023-06-16 06:46:46'),
+(272, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-16 06:46:55'),
+(273, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-16 06:46:59'),
+(274, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi/logo', '2023-06-16 06:47:01'),
+(275, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-16 06:47:05'),
+(276, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-16 06:48:26'),
+(277, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-16 06:50:25'),
+(278, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-16 06:52:02'),
+(279, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-16 06:56:14'),
+(280, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-16 06:56:25'),
+(281, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/client', '2023-06-16 06:56:30'),
+(282, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/client', '2023-06-16 06:58:45'),
+(283, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/client', '2023-06-16 07:04:46'),
+(284, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-16 07:04:53'),
+(285, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/galeri', '2023-06-16 07:04:59'),
+(286, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-16 07:05:05'),
+(287, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user/edit/3', '2023-06-16 07:05:10'),
+(288, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-16 07:05:17'),
+(289, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user/delete/3', '2023-06-16 07:05:23'),
+(290, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-16 07:05:23'),
+(291, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-19 01:23:07'),
+(292, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-19 01:23:12'),
+(293, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-19 01:23:18'),
+(294, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-19 01:23:22'),
+(295, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/client', '2023-06-19 01:33:44'),
+(296, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-19 01:33:57'),
+(297, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 01:33:58'),
+(298, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-19 01:39:40'),
+(299, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 01:39:47'),
+(300, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user/edit/2', '2023-06-19 01:39:50'),
+(301, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user/edit/2', '2023-06-19 01:40:00'),
+(302, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 01:40:01'),
+(303, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-19 01:40:35'),
+(304, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-19 01:40:48'),
+(305, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-19 01:40:57'),
+(306, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-19 01:41:17'),
+(307, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-19 02:39:50'),
+(308, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-19 02:39:52'),
+(309, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 02:39:53'),
+(310, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-19 02:39:56'),
+(311, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 02:40:14'),
+(312, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 02:41:48'),
+(313, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 02:41:59'),
+(314, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-19 04:12:32'),
+(315, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-19 04:12:35'),
+(316, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-19 04:13:01'),
+(317, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:13:04'),
+(318, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user/delete/5', '2023-06-19 04:13:12'),
+(319, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:13:12'),
+(320, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:13:54'),
+(321, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:13:54'),
+(322, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user/delete/6', '2023-06-19 04:13:58'),
+(323, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:13:59'),
+(324, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:15:55'),
+(325, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user/delete/7', '2023-06-19 04:17:00'),
+(326, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:17:01'),
+(327, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:17:41'),
+(328, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user/delete/8', '2023-06-19 04:17:44'),
+(329, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:17:45'),
+(330, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:18:13'),
+(331, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user/delete/9', '2023-06-19 04:18:18'),
+(332, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/user', '2023-06-19 04:18:18'),
+(333, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-19 04:30:07'),
+(334, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-19 04:30:09'),
+(335, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-19 04:30:46'),
+(336, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-19 04:30:57'),
+(337, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-19 04:30:57'),
+(338, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-19 04:33:25'),
+(339, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-19 04:33:33'),
+(340, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/25', '2023-06-19 04:33:38'),
+(341, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-19 04:33:41'),
+(342, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/25', '2023-06-19 04:33:43'),
+(343, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-20 07:06:47'),
+(344, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 07:06:55'),
+(345, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-20 07:07:05'),
+(346, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-20 07:07:07'),
+(347, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-20 07:23:01'),
+(348, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 07:23:04'),
+(349, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 07:30:15'),
+(350, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 07:31:31'),
+(351, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 07:33:55'),
+(352, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 07:34:02'),
+(353, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/28', '2023-06-20 07:34:04'),
+(354, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/28', '2023-06-20 07:34:56'),
+(355, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 07:35:17'),
+(356, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/28', '2023-06-20 07:35:49'),
+(357, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 07:36:07'),
+(358, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-20 07:36:09'),
+(359, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 07:36:11'),
+(360, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-20 07:36:18'),
+(361, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-20 07:36:59'),
+(362, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-20 07:37:14'),
+(363, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 07:37:19'),
+(364, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/27', '2023-06-20 07:37:37'),
+(365, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-20 07:40:42'),
+(366, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-20 07:40:57'),
+(367, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-20 07:41:25'),
+(368, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 07:41:42'),
+(369, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 07:41:47'),
+(370, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 07:57:30'),
+(371, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 07:58:09'),
+(372, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:04:00'),
+(373, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:04:26'),
+(374, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:04:36'),
+(375, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:04:52'),
+(376, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:05:35'),
+(377, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:07:02'),
+(378, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:07:16'),
+(379, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:08:41'),
+(380, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:08:56'),
+(381, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:20:41'),
+(382, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:23:01'),
+(383, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:23:38'),
+(384, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-20 08:23:38'),
+(385, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 08:51:34'),
+(386, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 08:53:38'),
+(387, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-20 08:53:59'),
+(388, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 08:54:01'),
+(389, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/jenis_sewa/Sewa', '2023-06-20 08:54:03'),
+(390, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-20 15:33:37'),
+(391, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:33:43'),
+(392, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 15:33:47'),
+(393, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:34:54'),
+(394, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:37:00'),
+(395, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:38:50'),
+(396, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:39:19'),
+(397, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 15:42:47'),
+(398, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 15:47:25'),
+(399, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 15:47:31'),
+(400, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 15:47:32'),
+(401, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 15:50:25'),
+(402, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 15:50:44'),
+(403, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 15:52:20'),
+(404, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 15:52:30'),
+(405, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:54:16'),
+(406, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:54:19'),
+(407, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:54:45'),
+(408, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:55:18'),
+(409, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/edit/29', '2023-06-20 15:55:27'),
+(410, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:55:33'),
+(411, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 15:55:34'),
+(412, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 15:56:03'),
+(413, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 15:56:12'),
+(414, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 15:56:37'),
+(415, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 15:56:40'),
+(416, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 16:04:08'),
+(417, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:04:14'),
+(418, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:04:25'),
+(419, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:04:38'),
+(420, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:04:51'),
+(421, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:05:07'),
+(422, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:05:22'),
+(423, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:06:12'),
+(424, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:06:22'),
+(425, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambah', '2023-06-20 16:06:26'),
+(426, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa', '2023-06-20 16:06:28'),
+(427, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:06:30'),
+(428, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori/edit/7', '2023-06-20 16:06:41'),
+(429, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:06:42'),
+(430, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:08:13'),
+(431, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:08:14'),
+(432, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:09:13'),
+(433, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori/edit/7', '2023-06-20 16:09:15'),
+(434, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:09:22'),
+(435, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:24:10'),
+(436, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/kategori', '2023-06-20 16:24:11'),
+(437, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:24:12'),
+(438, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:24:24'),
+(439, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:24:28'),
+(440, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:39:59'),
+(441, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:40:01'),
+(442, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:41:28'),
+(443, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:42:11'),
+(444, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:42:13'),
+(445, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:42:35'),
+(446, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:42:35'),
+(447, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:43:17'),
+(448, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:45:16'),
+(449, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:45:48'),
+(450, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:46:23'),
+(451, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:46:23'),
+(452, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:49:17'),
+(453, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:49:18'),
+(454, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-20 16:49:40'),
+(455, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:49:40'),
+(456, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:50:22'),
+(457, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:50:55'),
+(458, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:51:07'),
+(459, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:51:31'),
+(460, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:51:32'),
+(461, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:52:00'),
+(462, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:52:15'),
+(463, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:52:30'),
+(464, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:53:56'),
+(465, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:55:14'),
+(466, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:55:23'),
+(467, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 16:55:34'),
+(468, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 16:55:45'),
+(469, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 16:56:18'),
+(470, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:00:21'),
+(471, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:00:22'),
+(472, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:00:43'),
+(473, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:00:57'),
+(474, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:01:20'),
+(475, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:02:52'),
+(476, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:02:54'),
+(477, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:03:37'),
+(478, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:04:02'),
+(479, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:04:10'),
+(480, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:05:45'),
+(481, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:05:48'),
+(482, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:05:52'),
+(483, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 17:05:52'),
+(484, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:05:56'),
+(485, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:05:59'),
+(486, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 17:06:00'),
+(487, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/deletealat/1', '2023-06-20 17:06:15'),
+(488, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 17:06:15'),
+(489, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 17:07:49'),
+(490, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 17:08:30'),
+(491, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 17:08:51'),
+(492, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-20 17:08:56'),
+(493, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-20 17:08:58');
+INSERT INTO `user_logs` (`id_user_log`, `id_user`, `ip_address`, `username`, `url`, `tanggal_updates`) VALUES
+(494, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-20 17:09:37'),
+(495, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-20 17:10:12'),
+(496, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-21 01:21:18'),
+(497, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-21 01:21:22'),
+(498, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-21 01:21:28'),
+(499, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-21 01:21:31'),
+(500, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-21 01:42:33'),
+(501, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 15:52:55'),
+(502, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 15:55:15'),
+(503, 1, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 15:55:47'),
+(504, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 15:56:54'),
+(505, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 15:58:56'),
+(506, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 15:58:59'),
+(507, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 16:00:30'),
+(508, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 16:01:12'),
+(509, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 16:01:27'),
+(510, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 16:02:36'),
+(511, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/akun', '2023-06-24 16:02:42'),
+(512, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 16:02:59'),
+(513, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 16:03:06'),
+(514, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 16:05:18'),
+(515, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 16:05:21'),
+(516, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 16:07:14'),
+(517, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 16:08:42'),
+(518, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 16:11:49'),
+(519, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 16:11:57'),
+(520, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 16:13:16'),
+(521, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 16:13:25'),
+(522, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 16:13:36'),
+(523, 10, '127.0.0.1', 'admin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 16:16:18'),
+(524, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-24 16:16:36'),
+(525, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-24 16:16:40'),
+(526, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/akun', '2023-06-24 16:17:03'),
+(527, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-25 01:38:09'),
+(528, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/user', '2023-06-25 01:38:12'),
+(529, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/konfigurasi', '2023-06-25 01:38:14'),
+(530, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 01:38:40'),
+(531, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 01:47:06'),
+(532, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-25 01:47:40'),
+(533, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 01:47:45'),
+(534, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-25 01:47:49'),
+(535, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-25 01:48:16'),
+(536, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 01:48:24'),
+(537, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 01:48:42'),
+(538, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 01:49:05'),
+(539, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 01:54:45'),
+(540, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 01:55:40'),
+(541, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 01:56:00'),
+(542, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 01:57:29'),
+(543, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 01:57:31'),
+(544, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-25 01:57:41'),
+(545, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 01:57:44'),
+(546, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 02:00:49'),
+(547, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-25 02:01:12'),
+(548, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 02:01:15'),
+(549, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 02:01:22'),
+(550, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 02:01:28'),
+(551, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-06-25 02:01:32'),
+(552, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 02:01:34'),
+(553, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-25 02:01:37'),
+(554, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 02:01:40'),
+(555, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:06:35'),
+(556, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:09:30'),
+(557, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:09:31'),
+(558, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:09:48'),
+(559, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:10:44'),
+(560, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:11:14'),
+(561, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:11:30'),
+(562, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:16:13'),
+(563, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:16:26'),
+(564, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:16:27'),
+(565, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:17:53'),
+(566, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:18:03'),
+(567, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:18:03'),
+(568, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:18:58'),
+(569, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:19:02'),
+(570, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:19:02'),
+(571, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:19:56'),
+(572, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:19:59'),
+(573, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:19:59'),
+(574, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:20:27'),
+(575, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:20:29'),
+(576, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:20:29'),
+(577, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:20:53'),
+(578, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:21:07'),
+(579, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:21:07'),
+(580, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:21:26'),
+(581, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:21:27'),
+(582, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:21:27'),
+(583, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:22:11'),
+(584, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:22:14'),
+(585, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:22:14'),
+(586, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:22:44'),
+(587, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:22:44'),
+(588, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:23:01'),
+(589, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:23:06'),
+(590, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:23:06'),
+(591, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:24:23'),
+(592, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:24:33'),
+(593, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:24:41'),
+(594, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:24:41'),
+(595, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 02:27:20'),
+(596, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 03:01:25'),
+(597, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 03:13:42'),
+(598, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 03:42:24'),
+(599, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-25 03:42:33'),
+(600, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 03:42:37'),
+(601, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-25 03:44:41'),
+(602, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 03:44:43'),
+(603, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 03:44:52'),
+(604, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 03:45:24'),
+(605, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-25 03:45:38'),
+(606, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-06-25 03:45:40'),
+(607, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/dasbor', '2023-06-26 05:09:37'),
+(608, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-06-26 05:09:41'),
+(609, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-06-26 05:09:43'),
+(610, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-07-03 07:51:10'),
+(611, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 07:51:14'),
+(612, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-07-03 07:51:38'),
+(613, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 07:51:47'),
+(614, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-07-03 07:51:49'),
+(615, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-07-03 07:51:55'),
+(616, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 07:51:55'),
+(617, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/dasbor', '2023-07-03 07:52:08'),
+(618, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 07:52:45'),
+(619, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-07-03 07:52:47'),
+(620, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-07-03 07:52:50'),
+(621, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 07:52:50'),
+(622, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/editalat/1', '2023-07-03 08:00:58'),
+(623, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 08:01:00'),
+(624, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-07-03 08:06:29'),
+(625, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 08:15:27'),
+(626, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-07-03 08:43:02'),
+(627, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-07-03 14:56:26'),
+(628, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:30:50'),
+(629, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:30:58'),
+(630, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:31:32'),
+(631, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:37:04'),
+(632, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:39:35'),
+(633, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:40:14'),
+(634, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:40:44'),
+(635, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:42:36'),
+(636, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:44:58'),
+(637, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/akun', '2023-07-03 15:45:13'),
+(638, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 15:45:17'),
+(639, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 15:45:20'),
+(640, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:45:51'),
+(641, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:48:50'),
+(642, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:49:05'),
+(643, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:50:45'),
+(644, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:51:02'),
+(645, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:51:09'),
+(646, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-03 15:51:45'),
+(647, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 16:02:05'),
+(648, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 16:02:54'),
+(649, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 16:03:19'),
+(650, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 16:03:29'),
+(651, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-03 16:03:35'),
+(652, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:03:38'),
+(653, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:04:50'),
+(654, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:05:42'),
+(655, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:08:49'),
+(656, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:09:30'),
+(657, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:11:28'),
+(658, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:13:29'),
+(659, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:13:49'),
+(660, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:14:00'),
+(661, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:14:13'),
+(662, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:14:20'),
+(663, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:15:00'),
+(664, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:18:55'),
+(665, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:19:41'),
+(666, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:21:38'),
+(667, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:22:23'),
+(668, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:22:52'),
+(669, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:23:14'),
+(670, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:23:33'),
+(671, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:23:43'),
+(672, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-03 16:23:50'),
+(673, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-07-04 01:49:27'),
+(674, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 01:49:33'),
+(675, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 01:49:41'),
+(676, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-07-04 01:49:44'),
+(677, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-04 01:49:49'),
+(678, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-07-04 01:52:47'),
+(679, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 01:52:51'),
+(680, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/dasbor', '2023-07-04 01:53:58'),
+(681, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 01:54:00'),
+(682, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 01:54:34'),
+(683, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/dasbor', '2023-07-04 01:55:04'),
+(684, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 01:55:09'),
+(685, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:00:21'),
+(686, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:00:39'),
+(687, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:00:50'),
+(688, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:01:04'),
+(689, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:01:18'),
+(690, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:01:19'),
+(691, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:01:25'),
+(692, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:01:26'),
+(693, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:01:40'),
+(694, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:02:17'),
+(695, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:02:32'),
+(696, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:02:38'),
+(697, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:10:09'),
+(698, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:10:11'),
+(699, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:10:32'),
+(700, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-04 02:11:02'),
+(701, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-07-04 02:11:05'),
+(702, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/tambahalat', '2023-07-04 02:11:48'),
+(703, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-04 02:11:48'),
+(704, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/history', '2023-07-04 02:12:51'),
+(705, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-04 02:13:20'),
+(706, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:13:28'),
+(707, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:13:36'),
+(708, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:17:32'),
+(709, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:17:35'),
+(710, 2, '127.0.0.1', 'ryan', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:17:52'),
+(711, 3, '127.0.0.1', 'galuh', 'http://localhost/rentalsawah/history', '2023-07-04 02:18:56'),
+(712, 3, '127.0.0.1', 'galuh', 'http://localhost/rentalsawah/admin/akun', '2023-07-04 02:19:22'),
+(713, 3, '127.0.0.1', 'galuh', 'http://localhost/rentalsawah/admin/sewa/sewaalat', '2023-07-04 02:19:25'),
+(714, 3, '127.0.0.1', 'galuh', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:19:27'),
+(715, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/dasbor', '2023-07-04 02:19:38'),
+(716, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/sewa/riwayatsewa', '2023-07-04 02:19:41'),
+(717, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/admin/akun', '2023-07-04 02:20:19'),
+(718, 1, '127.0.0.1', 'superadmin', 'http://localhost/rentalsawah/history', '2023-07-04 02:20:23'),
+(719, 1, '::1', 'Superadmin', 'http://localhost/temantani/admin/akun', '2023-07-06 07:50:44'),
+(720, 1, '::1', 'Superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-06 07:51:22'),
+(721, 1, '::1', 'Superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-06 07:51:37'),
+(722, 1, '::1', 'Superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-06 07:55:54'),
+(723, 1, '::1', 'Superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-06 07:55:54'),
+(724, 1, '::1', 'Superadmin', 'http://localhost/temantani/admin/akun', '2023-07-06 07:56:17'),
+(725, 1, '::1', 'Superadmin', 'http://localhost/temantani/admin/akun', '2023-07-06 07:57:33'),
+(726, 1, '::1', 'Superadmin', 'http://localhost/temantani/admin/akun', '2023-07-06 07:57:33'),
+(727, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-06 07:59:26'),
+(728, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user', '2023-07-06 08:00:15'),
+(729, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user/edit/2', '2023-07-06 08:00:41'),
+(730, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-06 08:01:11'),
+(731, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-06 08:01:21'),
+(732, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-06 08:03:02'),
+(733, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-06 08:03:29'),
+(734, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-17 05:22:23'),
+(735, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-17 05:22:32'),
+(736, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 05:22:36'),
+(737, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-17 05:22:46'),
+(738, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user', '2023-07-17 05:23:13'),
+(739, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user/delete/3', '2023-07-17 05:23:23'),
+(740, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user', '2023-07-17 05:23:23'),
+(741, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 05:23:27'),
+(742, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 05:23:31'),
+(743, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-17 05:23:37'),
+(744, 14, '::1', 'irul', 'http://localhost/temantani/admin/akun', '2023-07-17 05:28:27'),
+(745, 14, '::1', 'irul', 'http://localhost/temantani/admin/akun', '2023-07-17 05:33:08'),
+(746, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-17 05:34:22'),
+(747, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-17 05:34:36'),
+(748, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-17 07:01:06'),
+(749, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-17 07:01:06'),
+(750, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 07:01:12'),
+(751, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-17 07:01:27'),
+(752, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:01:31'),
+(753, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 07:01:41'),
+(754, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 07:01:43'),
+(755, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 07:01:44'),
+(756, 1, '::1', 'superadmin', 'http://localhost/temantani/history', '2023-07-17 07:02:23'),
+(757, 1, '::1', 'superadmin', 'http://localhost/temantani/history', '2023-07-17 07:02:33'),
+(758, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-17 07:03:12'),
+(759, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-17 07:03:31'),
+(760, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-17 07:03:40'),
+(761, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user', '2023-07-17 07:03:45'),
+(762, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user/edit/2', '2023-07-17 07:03:58'),
+(763, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user', '2023-07-17 07:04:12'),
+(764, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:04:33'),
+(765, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:04:39'),
+(766, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-17 07:06:22'),
+(767, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:06:26'),
+(768, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/2', '2023-07-17 07:06:38'),
+(769, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/2', '2023-07-17 07:09:26'),
+(770, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:09:26'),
+(771, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/3', '2023-07-17 07:09:35'),
+(772, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:09:40'),
+(773, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/1', '2023-07-17 07:09:44'),
+(774, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:10:18'),
+(775, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/3', '2023-07-17 07:11:26'),
+(776, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:11:43'),
+(777, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/3', '2023-07-17 07:11:56'),
+(778, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-17 07:13:24'),
+(779, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-17 07:15:10'),
+(780, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-17 07:15:11'),
+(781, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:15:24'),
+(782, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/3', '2023-07-17 07:15:29'),
+(783, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/3', '2023-07-17 07:16:01'),
+(784, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:16:01'),
+(785, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/3', '2023-07-17 07:17:14'),
+(786, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/3', '2023-07-17 07:17:31'),
+(787, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:17:31'),
+(788, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/2', '2023-07-17 07:17:35'),
+(789, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/2', '2023-07-17 07:17:48'),
+(790, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:17:48'),
+(791, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 07:19:18'),
+(792, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user', '2023-07-17 07:19:20'),
+(793, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user/delete/2', '2023-07-17 07:19:25'),
+(794, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user', '2023-07-17 07:19:25'),
+(795, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:19:39'),
+(796, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/status_sewa/Publish', '2023-07-17 07:19:46'),
+(797, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:19:49'),
+(798, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 07:19:57'),
+(799, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:20:18'),
+(800, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 07:20:25'),
+(801, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:20:53'),
+(802, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-17 07:20:56'),
+(803, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:21:02'),
+(804, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/25', '2023-07-17 07:21:08'),
+(805, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:21:10'),
+(806, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/tambah', '2023-07-17 07:22:19'),
+(807, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/tambah', '2023-07-17 07:22:53'),
+(808, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/tambah', '2023-07-17 07:27:25'),
+(809, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/tambah', '2023-07-17 07:29:38'),
+(810, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 07:29:41'),
+(811, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/riwayatsewa', '2023-07-17 07:29:44'),
+(812, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/user', '2023-07-17 07:29:45'),
+(813, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:29:54'),
+(814, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/delete/30', '2023-07-17 07:30:31'),
+(815, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:30:31'),
+(816, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 07:30:39'),
+(817, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 07:30:51'),
+(818, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:30:54'),
+(819, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-17 07:31:04'),
+(820, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-17 07:31:20'),
+(821, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:31:49'),
+(822, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-17 07:31:54'),
+(823, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:31:57'),
+(824, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/25', '2023-07-17 07:32:00'),
+(825, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 07:32:02'),
+(826, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 08:31:21'),
+(827, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 08:31:30'),
+(828, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 08:55:28'),
+(829, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 09:32:38'),
+(830, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 10:27:21'),
+(831, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 12:07:34'),
+(832, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 12:07:40'),
+(833, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 12:09:40'),
+(834, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 12:11:42'),
+(835, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 12:12:05'),
+(836, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 12:13:16'),
+(837, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 12:14:32'),
+(838, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 12:20:06'),
+(839, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 12:20:10'),
+(840, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 12:21:04'),
+(841, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 12:21:51'),
+(842, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/tambah', '2023-07-17 12:23:19'),
+(843, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 12:23:22'),
+(844, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-17 12:23:27'),
+(845, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 12:23:37'),
+(846, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/25', '2023-07-17 13:03:40'),
+(847, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 13:03:58'),
+(848, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/27', '2023-07-17 13:04:15'),
+(849, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-17 13:48:24'),
+(850, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 13:48:30'),
+(851, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/delete/27', '2023-07-17 13:48:37'),
+(852, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 13:48:37'),
+(853, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-17 13:48:41'),
+(854, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 13:48:43'),
+(855, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/25', '2023-07-17 13:48:46'),
+(856, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 13:48:48'),
+(857, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-17 13:56:07'),
+(858, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-17 13:56:14'),
+(859, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-17 13:56:19'),
+(860, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-17 13:56:36'),
+(861, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-17 13:56:42'),
+(862, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-17 13:56:46'),
+(863, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/1', '2023-07-17 14:01:31'),
+(864, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-17 14:01:55'),
+(865, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori/edit/1', '2023-07-17 14:02:42'),
+(866, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori/edit/1', '2023-07-17 14:07:12'),
+(867, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-17 14:07:12'),
+(868, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori/edit/1', '2023-07-17 14:09:09'),
+(869, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori/edit/1', '2023-07-17 14:09:14'),
+(870, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-17 14:09:14'),
+(871, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-17 14:09:23'),
+(872, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-17 14:09:25'),
+(873, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-18 07:18:36'),
+(874, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:18:47'),
+(875, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 07:18:51'),
+(876, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 07:19:04'),
+(877, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-18 07:19:16'),
+(878, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 07:22:19'),
+(879, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-18 07:22:21'),
+(880, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-18 07:23:13'),
+(881, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 07:23:20'),
+(882, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-18 07:23:23'),
+(883, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-18 07:23:42'),
+(884, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-18 07:25:45'),
+(885, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 07:25:46'),
+(886, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 07:25:48'),
+(887, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 07:25:49'),
+(888, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-18 07:25:51'),
+(889, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-18 07:25:56'),
+(890, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 07:25:56'),
+(891, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 07:27:26'),
+(892, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 07:28:55'),
+(893, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 07:29:02'),
+(894, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 07:29:07'),
+(895, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/3', '2023-07-18 07:29:09'),
+(896, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:29:21'),
+(897, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-18 07:29:27'),
+(898, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:30:12'),
+(899, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/1', '2023-07-18 07:30:17'),
+(900, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/1', '2023-07-18 07:30:57'),
+(901, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:30:58'),
+(902, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 07:31:53'),
+(903, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 07:31:56'),
+(904, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 07:32:10'),
+(905, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 07:32:14'),
+(906, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:32:38'),
+(907, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 07:32:42'),
+(908, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 07:32:47'),
+(909, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:32:47'),
+(910, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 07:33:11'),
+(911, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 07:33:19'),
+(912, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:33:28'),
+(913, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 07:33:53'),
+(914, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 07:34:02'),
+(915, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:34:02'),
+(916, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 07:34:16'),
+(917, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:34:20'),
+(918, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 07:34:24'),
+(919, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 07:34:35'),
+(920, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:34:35'),
+(921, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 07:35:07'),
+(922, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 07:35:23'),
+(923, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:35:23'),
+(924, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 07:43:35'),
+(925, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 07:43:37'),
+(926, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 07:44:31'),
+(927, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 07:44:31'),
+(928, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 07:44:55'),
+(929, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 07:47:23'),
+(930, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 07:47:23'),
+(931, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-18 07:50:05'),
+(932, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 07:50:07'),
+(933, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 07:54:52'),
+(934, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 07:54:52'),
+(935, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/dasbor', '2023-07-18 07:55:04'),
+(936, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 07:55:11'),
+(937, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 07:55:21'),
+(938, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 07:56:00'),
+(939, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/2', '2023-07-18 08:00:30'),
+(940, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 08:00:31'),
+(941, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/1', '2023-07-18 08:03:00'),
+(942, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/editalat/1', '2023-07-18 08:08:34'),
+(943, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 08:08:34'),
+(944, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/tambahalat', '2023-07-18 08:08:38'),
+(945, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/tambahalat', '2023-07-18 08:10:45'),
+(946, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/sewaalat', '2023-07-18 08:10:45'),
+(947, 1, '::1', 'superadmin', 'http://localhost/temantani/history', '2023-07-18 08:11:41'),
+(948, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 08:12:43'),
+(949, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 08:12:51'),
+(950, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 08:13:47'),
+(951, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 08:13:47'),
+(952, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 08:14:31'),
+(953, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 08:14:34'),
+(954, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 08:15:00'),
+(955, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 08:15:01'),
+(956, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 08:16:02'),
+(957, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 08:16:02'),
+(958, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 08:17:06'),
+(959, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 08:17:07'),
+(960, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 08:30:42'),
+(961, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/konfigurasi', '2023-07-18 08:30:44'),
+(962, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 08:33:14'),
+(963, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-18 08:33:19'),
+(964, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/26', '2023-07-18 08:38:42'),
+(965, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 08:38:43'),
+(966, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/25', '2023-07-18 08:38:49'),
+(967, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa/edit/25', '2023-07-18 08:43:10'),
+(968, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/sewa', '2023-07-18 08:43:10'),
+(969, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 08:45:19'),
+(970, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 08:45:23'),
+(971, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/3', '2023-07-18 08:45:30'),
+(972, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 08:45:42'),
+(973, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/tambah', '2023-07-18 08:45:49'),
+(974, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 08:45:54'),
+(975, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/delete/3', '2023-07-18 08:46:44'),
+(976, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 08:46:44'),
+(977, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/1', '2023-07-18 08:46:52'),
+(978, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/1', '2023-07-18 08:48:27'),
+(979, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 08:48:27'),
+(980, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/2', '2023-07-18 08:48:33'),
+(981, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/2', '2023-07-18 08:50:56'),
+(982, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 08:50:56'),
+(983, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/1', '2023-07-18 08:51:00'),
+(984, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/1', '2023-07-18 08:51:03'),
+(985, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 08:51:03'),
+(986, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/2', '2023-07-18 08:53:39'),
+(987, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/2', '2023-07-18 08:53:59'),
+(988, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 08:53:59'),
+(989, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/1', '2023-07-18 08:56:18'),
+(990, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri/edit/1', '2023-07-18 08:56:50'),
+(991, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/galeri', '2023-07-18 08:56:50'),
+(992, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/akun', '2023-07-18 08:57:27'),
+(993, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 08:57:52'),
+(994, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori/edit/8', '2023-07-18 08:58:00');
+INSERT INTO `user_logs` (`id_user_log`, `id_user`, `ip_address`, `username`, `url`, `tanggal_updates`) VALUES
+(995, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori/edit/8', '2023-07-18 08:58:03'),
+(996, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 08:58:03'),
+(997, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 08:58:27'),
+(998, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 08:58:27'),
+(999, 1, '::1', 'superadmin', 'http://localhost/temantani/admin/kategori', '2023-07-18 08:58:51');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `galeri`
+--
+ALTER TABLE `galeri`
+  ADD PRIMARY KEY (`id_galeri`);
+
+--
+-- Indexes for table `kategori`
+--
+ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`id_kategori`);
+
+--
+-- Indexes for table `konfigurasi`
+--
+ALTER TABLE `konfigurasi`
+  ADD PRIMARY KEY (`id_konfigurasi`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id_order`);
+
+--
+-- Indexes for table `sewa`
+--
+ALTER TABLE `sewa`
+  ADD PRIMARY KEY (`id_sewa`);
+
+--
+-- Indexes for table `sewa2`
+--
+ALTER TABLE `sewa2`
+  ADD PRIMARY KEY (`id_sewa2`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id_user`);
+
+--
+-- Indexes for table `user_logs`
+--
+ALTER TABLE `user_logs`
+  ADD PRIMARY KEY (`id_user_log`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `galeri`
+--
+ALTER TABLE `galeri`
+  MODIFY `id_galeri` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `kategori`
+--
+ALTER TABLE `kategori`
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `konfigurasi`
+--
+ALTER TABLE `konfigurasi`
+  MODIFY `id_konfigurasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `sewa`
+--
+ALTER TABLE `sewa`
+  MODIFY `id_sewa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `sewa2`
+--
+ALTER TABLE `sewa2`
+  MODIFY `id_sewa2` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `user_logs`
+--
+ALTER TABLE `user_logs`
+  MODIFY `id_user_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
